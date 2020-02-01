@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 interface GitHubService {
     @GET("users/{user}/repos")
-    fun getUserRepos(@Path("user") user:String): Single<GithubResponse>
+    fun getUserRepos(@Path("user") user: String): Single<List<GithubResponse>>
     //Observable
     //Single
     //Flowable

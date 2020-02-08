@@ -19,10 +19,10 @@ interface UserRepoDao {
     @Query("SELECT * FROM user_repo_table")
     fun getUserRepoLiveData(): LiveData<List<UserRepo>>?
 
-    @Query("SELECT * FROM user_repo_table where name = :name")
-    fun getUserByName(name:String): LiveData<List<UserRepo>>?
-
     //@Query("SELECT * FROM user_repo_table where name = :name")
-    //suspend fun getUserByName(name:String): List<UserRepo>
+    //fun getUserByName(name:String): LiveData<List<UserRepo>>?
+
+    @Query("SELECT * FROM user_repo_table where name = :name")
+    suspend fun getUserByName(name: String): List<UserRepo>?
 
 }

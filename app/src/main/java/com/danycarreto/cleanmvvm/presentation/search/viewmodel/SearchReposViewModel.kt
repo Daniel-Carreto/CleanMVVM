@@ -1,11 +1,7 @@
 package com.danycarreto.cleanmvvm.presentation.search.viewmodel
 
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.danycarreto.cleanmvvm.data.local.RepoRoomDatabase
 import com.danycarreto.cleanmvvm.data.local.entity.UserRepo
 import com.danycarreto.cleanmvvm.data.local.repository.UserRepoRepository
@@ -13,9 +9,7 @@ import com.danycarreto.cleanmvvm.data.network.models.response.GithubResponse
 import com.danycarreto.cleanmvvm.domain.model.Repo
 import com.danycarreto.cleanmvvm.domain.usecases.GitHubUserUseCase
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SearchReposViewModel(
     val userRepository: GitHubUserUseCase,
@@ -70,7 +64,26 @@ class SearchReposViewModel(
     }
 
     fun onSearchClick() {
-        getUserRepos(userInput.get().orEmpty())
+        //getUserRepos(userInput.get().orEmpty())
+        getRepoName(userInput.get().orEmpty())
+
+    }
+
+
+    fun getRepoName(name: String) {
+        viewModelScope.launch {
+            val repoList = ArrayList<Repo>()
+            userRepoRepository.getRepoByName(name)?.forEach {
+                repoList.add(
+                    Repo(
+                        url = it.url.orEmpty(),
+                        name = it.name,
+                        description = it.description.orEmpty()
+                    )
+                )
+            }
+            repoMutableLiveData.value = repoList
+        }
     }
 
 

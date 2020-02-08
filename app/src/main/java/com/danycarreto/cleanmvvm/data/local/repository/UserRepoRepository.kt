@@ -11,5 +11,8 @@ class UserRepoRepository(val userRepoDao:UserRepoDao) {
         userRepoDao.insertUserRepo(userRepo)
     }
 
+    suspend fun getRepoByName(name: String): List<UserRepo>? {
+        return userRepoDao.getUserByName(name)
+    }
 
 }

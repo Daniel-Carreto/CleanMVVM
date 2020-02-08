@@ -63,5 +63,13 @@ class MainActivity : AppCompatActivity() {
                     adapter = ReposAdapter(repoList)
                 }
             })
+
+        activityMainBinding.reposViewModel?.repoMutableLiveData
+            ?.observe(this, Observer {
+                activityMainBinding.rvRepos?.apply {
+                    layoutManager = LinearLayoutManager(this@MainActivity)
+                    adapter = ReposAdapter(it)
+                }
+            })
     }
 }
